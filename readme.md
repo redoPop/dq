@@ -27,7 +27,7 @@ There's no room for naughtiness in your HTML script tags if your inline initiali
 
 ## Example
 
-An example showing how to use dispatcher with [LABjs](http://labjs.com/) is included with this repository: [examples/slideshow.html](examples/slideshow.html). The code in that example is explained below.
+An example showing how to use dispatcher with [LABjs](http://labjs.com/) is included with this repository: [examples/slideshow.html](http://github.com/jdbartlett/dispatcher/blob/master/examples/slideshow.html). The code in that example is explained below.
 
 After loading LABjs and dispatcher (the two are concatenated into one file), a new dispatcher object is created called `pool`:
 
@@ -153,9 +153,9 @@ A dispatcher object's `dispatch` method calls all the methods you've pooled, in 
 
 # Download
 
-The only file you need to use dispatcher is [dispatcher.js](dispatcher.js) included in the root of this repository.
+The only file you need to use dispatcher is [dispatcher.js](http://github.com/jdbartlett/dispatcher/blob/master/dispatcher.js) included in the root of this repository.
 
-An unminified version [dispatcher.src.js](dispatcher.src.js) is also available, along with Jasmine specs found in the [spec/javascripts](spec/javascripts/dispatcherSpec.js) folder.
+An unminified version [dispatcher.src.js](http://github.com/jdbartlett/dispatcher/blob/master/dispatcher.src.js) is also available, along with Jasmine specs found in the [spec/javascripts](http://github.com/jdbartlett/dispatcher/blob/master/spec/javascripts/dispatcherSpec.js) folder.
 
 ***
 
