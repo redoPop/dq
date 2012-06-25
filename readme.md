@@ -8,23 +8,6 @@ There's no room for naughtiness in your HTML script tags if your inline initiali
 
 	<script>pool.add("mySite.initSlideshow")</script>
 
-***
-
-## Documentation Contents
-
-* [Example](#example)
-* [Dispatcher "vs" LABjs?](#vslabjs)
-* [Dispatcher API](#api)
-	* [dispatcher()](#api-dispatcher)
-	* [dispatcherObject.add()](#api-add)
-	* [dispatcherObject.dispatch()](#api-dispatch)
-* [Download](#download)
-* [License](#license)
-
-***
-
-<a id="example"></a>
-
 ## Example
 
 An example showing how to use dispatcher with [LABjs](http://labjs.com/) is included with this repository: [examples/slideshow.html](http://github.com/jdbartlett/dispatcher/blob/master/examples/slideshow.html). The code in that example is explained below.
@@ -55,11 +38,7 @@ When the dispatcher object is dispatched, the above would become the equivalent 
 
 	mySite.initSlideshow("Slide 1", "Slide 2");
 
-***
-
-<a id="vslabjs"></a>
-
-## Dispatcher _"vs"_ LABjs?
+## Dispatcher vs. naked LABjs
 
 With LABjs, function callbacks are normally queued using $LAB.wait, which may make dispatcher seem redundant to some. Without dispatcher, I might name my LABjs chain in the page head, like this:
 
@@ -84,19 +63,11 @@ Dispatcher complements LABjs to provide some distinct advantages:
 
 The temptation to abuse function callbacks for general inline scripting is what prompted me to write dispatcher in the first place. This is particularly a problem during maintenance, when it's tempting to sneak code inline rather than writing it in an external resource file and re-running build scripts.
 
-***
-
-<a id="api"></a>
-
 ## Dispatcher API
 
 Calling the `dispatcher` method returns a new dispatcher object. A dispatcher object has two methods: add (to collect method references), and dispatch (to parse and call the collected references).
 
-***
-
-<a id="api-dispatcher"></a>
-
-**dispatcher**( [ _object_ **contextObject** ] )
+### **dispatcher**( [ _object_ **contextObject** ] )
 
 `dispatcher` is a factory method that returns a new dispatcher object.
 
@@ -121,11 +92,7 @@ The custom context object must be declared ad the time `dispatch` is called, but
 
 If no custom context object is provided, the default "global" object (`window` except in obscure cases) will be used for context instead.
 
-***
-
-<a id="api-add"></a>
-
-dispatcherObject.**add**( _string_ **reference**, [ _argument_, ... ] )
+### dispatcherObject.**add**( _string_ **reference**, [ _argument_, ... ] )
 
 A dispatcher object's `add` method adds a method reference to your dispatch pool.
 
@@ -139,27 +106,15 @@ Any subsequent parameters (optional) will be applied to the method as arguments 
 
 Adding a method to the dispatcher object after its dispatch method has been called will result in immediate parsing and execution of the referenced method.
 
-***
-
-<a id="api-dispatch"></a>
-
-dispatcherObject.**dispatch**( _none_ )
+### dispatcherObject.**dispatch**( _none_ )
 
 A dispatcher object's `dispatch` method calls all the methods you've pooled, in the same order their references were added. You should call the dispatch method once you're sure all the methods have been made available.
-
-***
-
-<a id="download"></a>
 
 # Download
 
 The only file you need to use dispatcher is [dispatcher.js](http://github.com/jdbartlett/dispatcher/blob/master/dispatcher.js) included in the root of this repository.
 
 An unminified version [dispatcher.src.js](http://github.com/jdbartlett/dispatcher/blob/master/dispatcher.src.js) is also available, along with Jasmine specs found in the [spec/javascripts](http://github.com/jdbartlett/dispatcher/blob/master/spec/javascripts/dispatcherSpec.js) folder.
-
-***
-
-<a id="license"></a>
 
 # License
 
