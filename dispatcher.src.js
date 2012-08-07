@@ -58,7 +58,7 @@ var dispatcher = (function () {
 		}
 
 		method.apply(context, args);
-	};
+	}
 
 	return function (context) {
 		var dispatched = false,
