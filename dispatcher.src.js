@@ -6,21 +6,21 @@
  * techniques to make terse inline initializers that
  * don't tempt you to slip into bad inline scripting
  * habits.
- * 
+ *
  * Impractical illustrative example:
- * 
+ *
  * 1. First the dispatcher is created:
  * var pool = dispatcher();
- * 
+ *
  * 2. Then the "cat.meow" call is added to it:
  * pool.add("cat.meow");
- * 
+ *
  * 3. Some time later, the cat.meow method is declared:
  * var cat = { meow: function () { alert("Meow."); } };
- * 
+ *
  * 4. ...after which, the pool is dispatched:
  * pool.dispatch();
- * 
+ *
  * Need more info? Check out github.com/jdbartlett/dispatcher
  */
 var dispatcher = (function () {
@@ -28,6 +28,11 @@ var dispatcher = (function () {
 
 	// Scope the global object for later use
 	var global = this;
+
+	// Convenience wrapper for throwing errors
+	function throwError(message) {
+		throw new Error(message);
+	}
 
 	// Get property of context object by a string reference
 	function getProperty(reference, context) {
@@ -38,7 +43,7 @@ var dispatcher = (function () {
 		property = context;
 
 		// Loop through the split reference to refine...
-		while (i) {
+		while (i && property) {
 			i -= 1;
 			property = property[refinements[i]];
 		}
@@ -54,7 +59,7 @@ var dispatcher = (function () {
 
 		// Make sure the method is a function
 		if (!method || !method.apply) {
-			throw "No such method: " + reference;
+			throwError("No such method: " + reference);
 		}
 
 		method.apply(context, args);
@@ -74,7 +79,7 @@ var dispatcher = (function () {
 
 			// Reference must be a string
 			if (!reference.match) {
-				throw "Not a string: " + reference;
+				throwError("Not a string: " + reference);
 			}
 
 			// Grab an array of all the other arguments

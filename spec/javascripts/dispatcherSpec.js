@@ -76,7 +76,7 @@ describe("dispatcher", function () {
 				msg = e;
 			}
 
-			expect(msg).toEqual("No such method: bork");
+			expect(msg).toMatch("No such method: bork");
 		});
 
 		it("should throw error when adding non-string references", function () {
