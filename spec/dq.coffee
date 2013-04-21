@@ -62,3 +62,15 @@ describe 'dq', =>
     global._q = [['_spy']]
     dq()
     expect(_spy).to.have.been.calledOnce
+
+  it 'should cause subsequently queued module methods to be invoked immediately', =>
+    expect(modules.spy).not.to.have.been.called
+    dq(options)
+    queue.push('spy')
+    expect(modules.spy).to.have.been.calledOnce
+
+  it 'should cause subsequently queued global methods to be invoked immediately', =>
+    expect(_spy).not.to.have.been.called
+    dq(options)
+    queue.push('_spy')
+    expect(_spy).to.have.been.calledOnce
