@@ -54,6 +54,12 @@
     return modelArray.slice.apply(value);
   }
 
+  function dequeueLoop(queue, options) {
+    for (var i = -1, queueLength = queue.length; ++i < queueLength;) {
+      options.callback(arrayify(queue[i]), options);
+    }
+  }
+
   function dequeue(options) {
     if (!options) {
       options = {};
@@ -69,13 +75,11 @@
     options.modules = options.modules || [];
 
     // Loop through the queue
-    for (var i = -1, queueLength = options.q.length; ++i < queueLength;) {
-      options.callback(arrayify(options.q[i]), options);
-    }
+    dequeueLoop(options.q, options);
 
     // Overwrite the original push method for this queue array
     options.q.push = function () {
-      options.callback(arrayify(arguments), options);
+      dequeueLoop(arrayify(arguments), options);
     };
   }
 

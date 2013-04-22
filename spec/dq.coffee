@@ -63,14 +63,41 @@ describe 'dq', =>
     dq()
     expect(_spy).to.have.been.calledOnce
 
-  it 'should cause subsequently queued module methods to be invoked immediately', =>
-    expect(modules.spy).not.to.have.been.called
-    dq(options)
-    queue.push('spy')
-    expect(modules.spy).to.have.been.calledOnce
+  describe 'queueArray.push override', =>
 
-  it 'should cause subsequently queued global methods to be invoked immediately', =>
-    expect(_spy).not.to.have.been.called
-    dq(options)
-    queue.push('_spy')
-    expect(_spy).to.have.been.calledOnce
+    it 'should cause subsequently queued module methods to be invoked immediately', =>
+      expect(modules.spy).not.to.have.been.called
+      dq(options)
+      queue.push(['spy'])
+      expect(modules.spy).to.have.been.calledOnce
+
+    it 'should cause subsequently queued global methods to be invoked immediately', =>
+      expect(_spy).not.to.have.been.called
+      dq(options)
+      queue.push(['_spy'])
+      expect(_spy).to.have.been.calledOnce
+
+    it 'should work with the recommended queue.push wrapper', =>
+      queueFn = ->
+        queue.push(arguments)
+
+      queueFn('spy', 1)
+
+      dq(options)
+
+      expect(modules.spy).to.have.been.calledOnce
+      expect(modules.spy).to.have.been.calledWith(1)
+
+      queueFn('spy', 2)
+
+      expect(modules.spy).to.have.been.calledTwice
+      expect(modules.spy).to.have.been.calledWith(2)
+
+    it 'should handle multiple calls in the order queued', =>
+      dq(options)
+      queue.push(
+        ['say', 1],
+        ['say', 2],
+        ['say', 3]
+      )
+      expect(output).to.eql([1, 2, 3])
