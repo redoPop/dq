@@ -41,10 +41,16 @@ module.exports = function (grunt) {
     },
 
     mocha: {
-      all: {
+      pure: {
         options: {
           run: true,
           urls: ['http://localhost:<%= connect.options.port %>/pure_runner.html']
+        }
+      },
+      amd: {
+        options: {
+          run: false,
+          urls: ['http://localhost:<%= connect.options.port %>/amd_runner.html']
         }
       }
     }
