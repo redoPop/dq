@@ -18,5 +18,11 @@
 
   <script src="dq.js"></script>
   <script src="spec/dq.js"></script>
+
+  <script>
+  if (navigator.userAgent.indexOf('PhantomJS') < 0) {
+    mocha.run();
+  }
+  </script>
 </body>
 </html>
