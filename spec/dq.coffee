@@ -31,13 +31,6 @@ describe 'dq', =>
     dq(options)
     expect(modules.spy).to.have.been.calledOnce
 
-  it 'should prefer module methods over global ones', =>
-    queue.push(['_spy'])
-    modules._spy = modules.spy
-    dq(options)
-    expect(modules._spy).to.have.been.calledOnce
-    expect(_spy).not.to.have.been.called
-
   it 'should send arguments when making calls', =>
     queue.push(['spy', 1, "two", { three: 3 }])
     dq(options)
@@ -62,6 +55,28 @@ describe 'dq', =>
     global._q = [['_spy']]
     dq()
     expect(_spy).to.have.been.calledOnce
+
+  describe 'callReference', =>
+
+    it 'should prefer module methods over global ones', =>
+      queue.push(['_spy'])
+      modules._spy = modules.spy
+      dq(options)
+      expect(modules._spy).to.have.been.calledOnce
+      expect(_spy).not.to.have.been.called
+
+  describe 'getProperty', =>
+
+    it 'should resolve period.delimited.module.paths', =>
+      modules.path = {
+        to: {
+          method: sinon.spy()
+        }
+      }
+      queue.push(['path.to.method', 'foo'])
+      dq(options)
+      expect(modules.path.to.method).to.have.been.calledOnce
+      expect(modules.path.to.method).to.have.been.calledWith('foo')
 
   describe 'queueArray.push override', =>
 
