@@ -11,7 +11,10 @@ describe 'dq', =>
     modules = {
       say: (something) =>
         output.push something
-      spy: sinon.spy()
+      spy: sinon.spy(),
+      objectModule: {
+        spy: sinon.spy()
+      }
     }
 
     queue = []
@@ -30,6 +33,11 @@ describe 'dq', =>
     queue.push(['spy'])
     dq(options)
     expect(modules.spy).to.have.been.calledOnce
+
+  it 'should preserve context when calling module methods', =>
+    queue.push(['objectModule.spy'])
+    dq(options)
+    expect(modules.objectModule.spy).to.have.been.calledOn(modules.objectModule)
 
   it 'should send arguments when making calls', =>
     queue.push(['spy', 1, "two", { three: 3 }])

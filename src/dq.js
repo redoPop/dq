@@ -11,38 +11,58 @@
     throw new Error(message);
   }
 
-  // Get property of context object by a string reference
+  // Splits reference string by period delimiter and traverses
+  // context object for a chain that matches the resultant array.
+  // Returns an object with two properties:
+  // {
+  //   p: the referenced property
+  //   c: p's parent context (useful for call/apply scenarios)
+  // }
+  //
+  // e.g.:
+  //   getProperty('foo.bar.baz', {foo: {bar: baz: 'hello'}})
+  //   => {p: 'hello', c: {baz: 'hello'}}
+  //
+  // Adapted from my original gist here:
   // http://gist.github.com/jdbartlett/1018008
-  function getProperty(reference, context) {
+  function processReference(reference, context) {
     var refinements = reference.split('.').reverse(),
         i = refinements.length,
         property = context;
 
+    // Reset the context return value
+    context = null;
+
     // Loop through the split reference to refine...
     while (i && property) {
       i -= 1;
+
+      context = property;
       property = property[refinements[i]];
     }
 
-    return property;
+    return property ? {
+      p: property,
+      c: context
+    } : false;
   }
 
   // Internal method to process method references
-  function callReference(reference, contexts, args) {
-    var context, method;
+  function callReference(referenceString, contexts, args) {
+    var context, referenceObject;
 
     var i = contexts.length;
-    while (i-- && !method) {
+    while (i-- && !referenceObject) {
       context = contexts[i];
-      method = getProperty(reference, context);
+      referenceObject = processReference(referenceString, context);
     }
 
-    // Make sure the method is a function
-    if (!method || !method.apply) {
-      throwError('No such method: ' + reference);
+    // Make sure referenceObject.p is a function
+    if (!referenceObject || !referenceObject.p.apply) {
+      throwError('No such method: ' + referenceString);
     }
 
-    method.apply(context, args);
+    referenceObject.p.apply(referenceObject.c, args);
   }
 
   function defaultCallback(functionCall, options) {
