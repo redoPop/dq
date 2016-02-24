@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         port: 9000,
         hostname: '0.0.0.0',
         base: [
-          'components',
+          'bower_components',
           'src',
           'test'
         ]
