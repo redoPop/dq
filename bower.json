@@ -1,8 +1,20 @@
 {
   "name": "dq",
-  "version": "2.0.2",
+  "description": "Terse inline initializers for async JS.",
   "license": "MIT",
   "main": "src/dq.js",
+  "moduleType": [
+    "globals",
+    "amd",
+    "node"
+  ],
+  "ignore": [
+    "test",
+    ".editorconfig",
+    ".jshintrc",
+    ".nvmrc",
+    "Gruntfile.js"
+  ],
   "dependencies": {},
   "devDependencies": {
     "chai": "~1.5.0",
