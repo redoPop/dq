@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = function (grunt) {
   function mountFolder(connect, dir) {
     return connect.static(require('path').resolve(dir));
@@ -24,13 +22,11 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         hostname: '0.0.0.0',
-        middleware: function (connect) {
-          return [
-            'components',
-            'src',
-            'test'
-          ].map(function (dir) { return mountFolder(connect, dir); });
-        }
+        base: [
+          'components',
+          'src',
+          'test'
+        ]
       },
       test: { }
     },
