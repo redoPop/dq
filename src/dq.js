@@ -103,12 +103,14 @@
     };
   }
 
-  // Wrapper for AMD friendliness
+  // UMD (based on returnExports.js template)
+  // https://github.com/umdjs/umd
   if (typeof define === 'function' && define.amd) {
-    // Register as an anonymous module
-    define(/* globalName, */function () {
+    define([], function () {
       return dequeue;
     });
+  } else if (typeof module === 'object' && module.exports) {
+    module.exports = dequeue;
   } else {
     global[globalName] = dequeue;
   }
