@@ -13,6 +13,7 @@
     ".editorconfig",
     ".jshintrc",
     ".nvmrc",
+    ".travis.yml",
     "Gruntfile.js"
   ],
   "dependencies": {},
