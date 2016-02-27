@@ -1,4 +1,4 @@
-# q & dq
+# dq [![Build Status](https://travis-ci.org/redoPop/dq.svg?branch=master)](https://travis-ci.org/redoPop/dq)
 
 If you want to do this:
 
