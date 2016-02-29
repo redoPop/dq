@@ -1,7 +1,7 @@
 {
   "name": "dq",
   "version": "2.0.2",
-  "description": "Terse inline initializers for async JS.",
+  "description": "Terse inline initializers for asynchronously loaded JavaScript",
   "license": "MIT",
   "repository": {
     "type": "git",
