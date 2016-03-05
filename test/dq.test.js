@@ -67,6 +67,13 @@ suite('dq', function () {
     sinon.assert.calledOnce(globalSpy);
   });
 
+  test('empties queue array to prevent accidental double-execution', function () {
+    q('globalSpy');
+    dq();
+    dq();
+    sinon.assert.calledOnce(globalSpy);
+  });
+
   suite('callReference', function () {
     test('prefers module methods over identically named global ones', function () {
       modules.globalSpy = sinon.spy();
