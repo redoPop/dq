@@ -95,7 +95,7 @@
     options.modules = options.modules || [];
 
     // Loop through the queue
-    dequeueLoop(options.q, options);
+    dequeueLoop(options.q.splice(0), options);
 
     // Overwrite the original push method for this queue array
     options.q.push = function () {
