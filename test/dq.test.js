@@ -61,7 +61,7 @@ suite('dq', function () {
     sinon.assert.threw(spy, 'Error');
   });
 
-  test('processes globally declared _q query array by default', function () {
+  test('processes globally declared _q queue array by default', function () {
     _q = [['globalSpy']];
     dq();
     sinon.assert.calledOnce(globalSpy);
