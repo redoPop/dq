@@ -1,3 +1,5 @@
+/* globals globalSpy:true, modules:true, _q:true, q:true */
+
 var assert = require('assert');
 var sinon = require('sinon');
 var dq = require('../src/dq');
