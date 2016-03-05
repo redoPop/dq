@@ -9,11 +9,8 @@
     "node"
   ],
   "ignore": [
-    "test",
-    ".editorconfig",
-    ".jshintrc",
-    ".nvmrc",
-    ".travis.yml"
+    "**/.*",
+    "test"
   ],
   "dependencies": {},
   "devDependencies": {}
