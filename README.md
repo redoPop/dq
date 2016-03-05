@@ -1,83 +1,138 @@
-# dq [![Build Status](https://travis-ci.org/redoPop/dq.svg?branch=master)](https://travis-ci.org/redoPop/dq)
+# q & dq [![Build Status](https://travis-ci.org/redoPop/dq.svg?branch=master)](https://travis-ci.org/redoPop/dq)
 
-If you want to do this:
+Inline script tags are handy for selectively calling external JavaScript modules, and for passing data to them:
 
-	<script async data-main="whatever" src="require.js"></script>
+```html
+<script>myModule.init({ modelId: 42, modelName: 'Ford Prefect' })</script>
+```
 
-...and also this:
+When JS modules are loaded _asynchronously,_ this approach can't be used because the browser could encounter the inline script before the module has loaded.
 
-	<script>require('some').method('and call it inline!')</script>
+dq is a tiny pattern and library that solves this problem by _queuing_ inline JS calls until external scripts are ready:
 
-...dq can help you. It's a tiny script for managing dependency queues
-with whatever asynchronous script loading method you choose.
+```html
+<script>q('myModule.init', { modelId: 42, modelName: 'Ford Prefect' })</script>
+```
 
-## Basic use (pure JS)
+dq can be used with any asynchronous script loading method.
 
-Add this to your head, in front of any other script tags:
+## Installation
 
-	<script>_q=[];q=function(){_q.push(arguments)};</script>
+dq is available as a Bower package:
 
-Throughout your HTML, add inline initializers to your queue like this:
+```
+bower install --save dq
+```
 
-	<script>q('module.method', 'arg1', 'arg2', 'arg3')</script>
+You can also copy source directly from `src/dq.js` in this repo.
 
-...where you would normally `module.method('arg1', 'arg2', 'arg3')`
+## Using dq
 
-Inside your asynchronously loaded script, once you're sure all the
-dependencies have loaded, process your inline queue by calling dq:
+Add this to your `<head>`, in front of any other script tags:
 
-	dq();
+```html
+<script>_q=[];q=function(){_q.push(arguments)};</script>
+```
 
-## RequireJS use
+This creates a `q` function, which can be used throughout the rest of the page to queue your external JS calls.
 
-dq is AMD friendly and defines itself as an anonymous module if AMD
-support is detected.
+`q`'s first parameter is the name of your function or module method reference as a string. Any arguments after that will be passed directly to the queued method.
 
-To use dq with RequireJS, declare your queue in the head _before_
-you load require.js:
+For example, if you had a method that you'd normally call like this:
 
-	<script>_q=[];q=function(){_q.push(arguments)};</script>
-	<script async data-main="whatever" src="require.js"></script>
+```html
+<script>
+  fancifier.fancify('wibbly-wobbly', { id: 42, name: 'Ford Prefect' })
+</script>
+```
+
+…you would instead _queue_ it like this:
+
+```html
+<script>
+  q('fancifier.fancify', 'wibbly-wobbly', { id: 42, name: 'Ford Prefect' })
+</script>
+```
+
+`dq` itself – the JS library provided by this repo – should be added to your external JS. Within your external JS, you must process all the queued scripts by calling dq:
+
+```javascript
+dq();
+```
+
+### Use with AMD & RequireJS
+
+`dq` is AMD-friendly and defines itself as an anonymous AMD module if AMD support is detected.
+
+To use dq with RequireJS, declare your queue in the `<head>` _before_ you load RequireJS:
+
+```html
+<script>_q=[];q=function(){_q.push(arguments)};</script>
+<script async data-main="whatever" src="require.js"></script>
+```
 
 You can then start queuing up module/method calls inline:
 
-	<script>q('someModule.someMethod', 'arg1', 'arg2', 'arg3')</script>
+```html
+<script>q('someModule.someMethod', 'arg1', 'arg2', 'arg3')</script>
+```
 
-Since AMD modules aren't part of the global scope, you need to pass
-them in using the `modules` option when you call dq:
+Since AMD modules aren't part of the global scope, you need to pass them in using the `modules` option when you call dq:
 
-	define(['dq', 'amd/module'], function (dq, loadedModule) {
-		dq({
-			modules: { someModule: loadedModule }
-		});
-	});
+```javascript
+define(['dq', 'amd/module'], function (dq, loadedModule) {
+  dq({
+    modules: { someModule: loadedModule }
+  });
+});
+```
 
 ## Advanced use
 
 There are a number of options you can set with your dq call:
 
-	dq({
-		// Set a custom queue array if you want to use something
-		// other than _q, or if you want to use more than one queue
-		// on the same page:
-		q: queueArray,
+```javascript
+dq({
 
-		// If you're using AMD or another method of avoiding the
-		// global scope, you'll need to pass dq a modules object
-		// that pairs module references with the actual modules:
-		modules: {
-			module: module
-		},
+  /**
+  Set a custom queue array if you want to use something
+  other than _q, or if you want to use more than one queue
+  on the same page:
+  */
+  q: queueArray,
 
-		// You can create your own custom callback for processing
-		// your queue. For each queued item, the callback is called
-		// with the following parameters:
-		// * functionCallArray - the queue item array (in which the
-		//   the first element is the function reference and
-		//   subsequent elements are arguments).
-		// * dqOptionsObject - a copy of the options object, useful
-		//   for referencing the modules object and other options.
-		callback: function (functionCallArray, dqOptionsObject) {
-			// ...
-		}
-	});
+  /**
+  If you're using AMD or another method of avoiding the
+  global scope, you'll need to pass dq a modules object
+  that pairs module references with the actual modules:
+  */
+  modules: {
+    module: module
+  },
+
+  /**
+  You can create your own custom callback for processing
+  your queue. For each queued item, the callback is called
+  with the following parameters:
+
+  * functionCallArray - the queue item array (in which the
+    the first element is the function reference and
+    subsequent elements are arguments).
+  * dqOptionsObject - a copy of the options object, useful
+    for referencing the modules object and other options.
+  */
+  callback: function (functionCallArray, dqOptionsObject) {
+    // ...
+  }
+
+});
+```
+
+## Developing & contributing
+
+If you would like to modify dq's source, simply:
+
+* Clone this repo and enter the newly created directory
+* `npm install`
+
+You can edit dq's source in `src/dq.js`, and then run `npm test` to make sure your modifications pass tests and follow the repo's code style.
