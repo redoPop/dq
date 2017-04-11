@@ -1,14 +1,14 @@
 # q & dq [![Build Status](https://travis-ci.org/redoPop/dq.svg?branch=master)](https://travis-ci.org/redoPop/dq)
 
-Inline script tags are handy for selectively calling external JavaScript modules, and for passing data to them:
+Inline JS is handy for selectively calling external modules and passing data from the page:
 
 ```html
 <script>myModule.init({ modelId: 42, modelName: 'Ford Prefect' })</script>
 ```
 
-When JS modules are loaded _asynchronously,_ this approach can't be used because the browser could encounter the inline script before the module has loaded.
+This approach can't be used with asynchronously loaded modules because the browser could encounter the inline script before the module has loaded.
 
-dq is a tiny pattern and library that solves this problem by _queuing_ inline JS calls until external scripts are ready:
+**q & dq is a tiny pattern and library that solves this problem by _queuing_ inline JS until external scripts are ready:**
 
 ```html
 <script>q('myModule.init', { modelId: 42, modelName: 'Ford Prefect' })</script>
@@ -18,15 +18,21 @@ dq can be used with any asynchronous script loading method.
 
 ## Installation
 
-dq is available as a Bower package:
+q & dq is available via NPM:
 
 ```
-bower install --save dq
+npm install --save qdq
+```
+
+It's also available on Bower:
+
+```
+bower install --save qdq
 ```
 
 You can also copy source directly from `src/dq.js` in this repo.
 
-## Using dq
+## Using q & dq
 
 Add this to your `<head>`, in front of any other script tags:
 
@@ -128,11 +134,6 @@ dq({
 });
 ```
 
-## Developing & contributing
+## License
 
-If you would like to modify dq's source, simply:
-
-* Clone this repo and enter the newly created directory
-* `npm install`
-
-You can edit dq's source in `src/dq.js`, and then run `npm test` to make sure your modifications pass tests and follow the repo's code style.
+[MIT](LICENSE)

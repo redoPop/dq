@@ -1,6 +1,6 @@
 {
-  "name": "dq",
-  "description": "Terse inline initializers for asynchronously loaded JavaScript",
+  "name": "qdq",
+  "description": "Tiny inline initializers for asynchronously-loaded JavaScript.",
   "license": "MIT",
   "main": "src/dq.js",
   "moduleType": [

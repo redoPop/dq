@@ -1,21 +1,20 @@
 {
-  "name": "dq",
+  "name": "qdq",
   "version": "2.0.3",
-  "description": "Terse inline initializers for asynchronously loaded JavaScript",
+  "description": "Tiny inline initializers for asynchronously-loaded JavaScript.",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/redoPop/dq.git"
   },
   "scripts": {
-    "lint": "jshint .",
-    "pretest": "npm run lint",
+    "pretest": "jshint .",
     "test": "mocha"
   },
   "dependencies": {},
   "devDependencies": {
-    "jshint": "^2.9.1",
-    "mocha": "^2.4.5",
-    "sinon": "^1.17.3"
+    "jshint": "^2.9.4",
+    "mocha": "^3.2.0",
+    "sinon": "^2.1.0"
   }
 }
